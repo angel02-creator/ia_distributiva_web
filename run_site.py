@@ -2,17 +2,19 @@ import http.server
 import os
 import socketserver
 import webbrowser
+from pathlib import Path
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SITE_DIR = os.path.join(BASE_DIR, 'site')
+BASE_DIR = Path(__file__).resolve().parent
+SITE_DIR = BASE_DIR / 'site'
 PORT = 8000
 
-if not os.path.exists(SITE_DIR):
-    os.makedirs(os.path.join(SITE_DIR, 'assets', 'images'), exist_ok=True)
+if not SITE_DIR.exists():
+    SITE_DIR.mkdir(parents=True, exist_ok=True)
+    (SITE_DIR / 'assets' / 'images').mkdir(parents=True, exist_ok=True)
     print('Se creó la carpeta site/ con subcarpetas necesarias.')
 
-index_file = os.path.join(SITE_DIR, 'index.html')
-if not os.path.exists(index_file):
+index_file = SITE_DIR / 'index.html'
+if not index_file.exists():
     print('No se encontró site/index.html. Coloca tu proyecto en la carpeta site y vuelve a ejecutar este script.')
     raise SystemExit(1)
 
